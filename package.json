@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register src/**/*spec.js",
+    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register src/**/*spec.js",
     "test:watch": "npm test -- -w"
   },
   "author": "Steven Langbroek",
