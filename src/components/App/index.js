@@ -1,6 +1,10 @@
 import React, { PropTypes, Component } from 'react';
 
 export class App extends Component {
+  static propTypes = {
+    title: PropTypes.string,
+  };
+
   render() {
     const {
       title
