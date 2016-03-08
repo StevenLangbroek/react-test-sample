@@ -8,11 +8,11 @@ let jsdom;
 
 before(() => {
   jsdom = require('jsdom-global')();
-})
+});
 
 after(() => {
   jsdom();
-})
+});
 
 export default (Component) => (props) => {
   const component = renderIntoDocument(<Component {...props} />);
@@ -23,4 +23,4 @@ export default (Component) => (props) => {
     props,
     output
   };
-}
+};
