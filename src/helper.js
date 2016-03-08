@@ -6,20 +6,21 @@ global.expect = expect;
 
 let jsdom;
 
-beforeEach(() => {
+before(() => {
   jsdom = require('jsdom-global')();
 })
 
-afterEach(() => {
+after(() => {
   jsdom();
 })
 
 export default (Component) => (props) => {
   const component = renderIntoDocument(<Component {...props} />);
+  const output = findDOMNode(component);
 
   return {
     component,
     props,
-    output: findDOMNode(component)
+    output
   };
 }
