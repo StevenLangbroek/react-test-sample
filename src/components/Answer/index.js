@@ -11,7 +11,7 @@ export const answerShape = PropTypes.shape({
 export class Answer extends React.Component {
   static propTypes = {
     answer: answerShape,
-    answeredQuestion: PropTypes.number.isRequired,
+    userAnswer: PropTypes.number.isRequired,
     castVote: PropTypes.func.isRequired,
     shouldDisplayResults: PropTypes.bool,
     totalVotes: PropTypes.number,
@@ -27,11 +27,22 @@ export class Answer extends React.Component {
   renderResult() {
     // TODO: Determine answer weight and build width based on that
     // TODO: Is this the answer given, if so: add extra class
-    return (
-      <div className="answer answer--result">
-        {text}
+    const {
+      userAnswer,
+      answer
+    } = this.props;
+
+    const userGaveThisAnswer = (userAnswer === answer.id);
+
+    return userGaveThisAnswer ? (
+      <div className="answer answer--result answer--given">
+        {answer.text} - <strong>You and {answer.click_count - 1} more.</strong>
       </div>
-    )
+    ) : (
+      <div className="answer answer--result">
+        <strong>{answer.click_count}</strong> {text}
+      </div>
+    );
   }
 
   renderQuestion() {
@@ -50,7 +61,7 @@ export class Answer extends React.Component {
   render() {
     const {
       answer,
-      answeredQuestion,
+      userAnswer,
       castVote,
       shouldDisplayResults,
       totalVotes

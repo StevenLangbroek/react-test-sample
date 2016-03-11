@@ -1,4 +1,7 @@
-import { expect } from 'chai';
+import chai, { expect } from 'chai';
+import sinonChai from 'sinon-chai';
+chai.use(sinonChai);
+
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { renderIntoDocument } from 'react-addons-test-utils';

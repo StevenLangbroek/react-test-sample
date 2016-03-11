@@ -37,7 +37,8 @@ export class Poll extends React.Component {
             answer={answer}
             castVote={castVote}
             shouldDisplayResults={userDidAnswer}
-            answeredQuestion={answered_question}
+            userAnswer={answered_question}
+            totalVotes={total_click_count}
           />
         )}
       </div>
