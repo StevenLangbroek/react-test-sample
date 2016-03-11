@@ -2,7 +2,8 @@ import { expect } from 'chai';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { renderIntoDocument } from 'react-addons-test-utils';
-global.expect = expect;
+import globalJsDom from 'jsdom-global';
+if (!global.expect) global.expect = expect;
 
 let jsdom;
 
