@@ -1,65 +1,52 @@
 /* @flow */
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { increment, doubleAsync } from '../../redux/modules/counter'
+import { fetchPoll, castVote } from 'redux/modules/poll'
 import DuckImage from './Duck.jpg'
 import classes from './HomeView.scss'
+import Poll from 'components/Poll'
 
-// We can use Flow (http://flowtype.org/) to type our component's props
-// and state. For convenience we've included both regular propTypes and
-// Flow types, but if you want to try just using Flow you'll want to
-// disable the eslint rule `react/prop-types`.
-// NOTE: You can run `npm run flow:check` to check for any errors in your
-// code, or `npm i -g flow-bin` to have access to the binary globally.
-// Sorry Windows users :(.
-type Props = {
-  counter: number,
-  doubleAsync: Function,
-  increment: Function
-};
+const POLL_ID = 3725090
 
-// We avoid using the `@connect` decorator on the class definition so
-// that we can export the undecorated component for testing.
-// See: http://rackt.github.io/redux/docs/recipes/WritingTests.html
-export class HomeView extends React.Component<void, Props, void> {
+const isLoaded = (poll, user) => (poll.$didFetch && user.$didFetch)
+
+export class HomeView extends React.Component {
   static propTypes = {
-    counter: PropTypes.number.isRequired,
-    doubleAsync: PropTypes.func.isRequired,
-    increment: PropTypes.func.isRequired
+    user: PropTypes.object.isRequired,
+    poll: PropTypes.object.isRequired,
+    fetchPoll: PropTypes.func.isRequired,
+    castVote: PropTypes.func.isRequired,
   };
 
+  componentWillReceiveProps ({ user }) {
+    const { fetchPoll } = this.props
+    if (!this.props.user.user && user && user.user) {
+      fetchPoll(POLL_ID)
+    }
+  }
+
   render () {
+    const {
+      user,
+      poll,
+      castVote
+    } = this.props
+
+    const vote = (poll) => (answer) => castVote(poll, answer)
+
     return (
       <div className='container text-center'>
-        <div className='row'>
-          <div className='col-xs-2 col-xs-offset-5'>
-            <img className={classes.duck}
-              src={DuckImage}
-              alt='This is a duck, because Redux.' />
-          </div>
-        </div>
-        <h1>Welcome to the React Redux Starter Kit</h1>
-        <h2>
-          Sample Counter:
-          {' '}
-          <span className={classes['counter--green']}>{this.props.counter}</span>
-        </h2>
-        <button className='btn btn-default' onClick={this.props.increment}>
-          Increment
-        </button>
-        {' '}
-        <button className='btn btn-default' onClick={this.props.doubleAsync}>
-          Double (Async)
-        </button>
+        {isLoaded(user, poll) ? <Poll poll={poll.entities[POLL_ID]} castVote={vote(poll.entities[POLL_ID])} /> : <p>Loading!</p>}
       </div>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  counter: state.counter
+  user: state.user,
+  poll: state.poll
 })
 export default connect((mapStateToProps), {
-  increment: () => increment(1),
-  doubleAsync
+  fetchPoll,
+  castVote
 })(HomeView)

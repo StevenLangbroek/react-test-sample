@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react'
 import '../../styles/core.scss'
+import { connect } from 'react-redux'
+import { fetchUser } from 'redux/modules/user'
 
 // Note: Stateless/function components *will not* hot reload!
 // react-transform *only* works on component classes.
@@ -10,18 +12,31 @@ import '../../styles/core.scss'
 //
 // CoreLayout is a pure function of its props, so we can
 // define it with a plain javascript function...
-function CoreLayout ({ children }) {
-  return (
-    <div className='page-container'>
-      <div className='view-container'>
-        {children}
+class CoreLayout extends React.Component {
+  static propTypes = {
+    children: PropTypes.element,
+    fetchUser: PropTypes.func.isRequired
+  };
+
+  componentDidMount () {
+    this.props.fetchUser()
+  }
+
+  render () {
+    const { children } = this.props
+
+    return (
+      <div className='page-container'>
+        <div className='view-container'>
+          {children}
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
-CoreLayout.propTypes = {
-  children: PropTypes.element
+const mapDispatchToProps = {
+  fetchUser
 }
 
-export default CoreLayout
+export default connect(null, mapDispatchToProps)(CoreLayout)
