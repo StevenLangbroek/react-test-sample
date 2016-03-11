@@ -34,7 +34,7 @@ export class Poll extends React.Component {
 
     return (
       <div className={styles.poll}>
-        <h3 className={styles.pollHeading}>{question} <span className={styles.pollVoteCount}>{total_click_count}</span></h3>
+        <h3 className={styles.pollHeading}>{question} <span className={styles.pollVoteCount}>{total_click_count} Votes</span></h3>
         {image_url && <img src={image_url} className={styles.pollImage} />}
         {answers.map(answer =>
           <Answer

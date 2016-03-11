@@ -20,7 +20,7 @@ export class HomeView extends React.Component {
 
   componentWillReceiveProps ({ user }) {
     const { fetchPoll } = this.props
-    if (!this.props.user.user && user && user.user) {
+    if (!this.props.user.$didFetch && user.$didFetch) {
       fetchPoll(POLL_ID)
     }
   }

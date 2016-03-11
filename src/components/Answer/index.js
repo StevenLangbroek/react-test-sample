@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react'
 import fn from 'utils/fn'
+import styles from './styles.scss'
+import cn from 'class-name';
 
 export const answerShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -20,7 +22,7 @@ export class Answer extends React.Component {
   constructor (props, context) {
     super(props, context)
 
-    this.renderQuestion = this.renderQuestion.bind(this)
+    this.renderOption = this.renderOption.bind(this)
     this.renderResult = this.renderResult.bind(this)
   }
 
@@ -35,24 +37,24 @@ export class Answer extends React.Component {
     const userGaveThisAnswer = (userAnswer === answer.id)
 
     return userGaveThisAnswer ? (
-      <div className='answer answer--result answer--given'>
+      <div className={cn(styles.answer, styles.answerResult, styles.answerGiven)}>
         {answer.text} - <strong>You and {answer.click_count - 1} more.</strong>
       </div>
     ) : (
-      <div className='answer answer--result'>
+      <div className={cn(styles.answer, styles.answerResult)}>
         <strong>{answer.click_count}</strong> {answer.text}
       </div>
     )
   }
 
-  renderQuestion () {
+  renderOption () {
     const {
       castVote,
       answer
     } = this.props
 
     return (
-      <a href='#' className='answer' onClick={fn(castVote, answer)}>
+      <a href='#' className={cn(styles.answer, styles.answerOption)} onClick={fn(castVote, answer)}>
         {answer.text}
       </a>
     )
@@ -69,7 +71,7 @@ export class Answer extends React.Component {
 
     return shouldDisplayResults
       ? this.renderResult()
-      : this.renderQuestion()
+      : this.renderOption()
   }
 }
 

@@ -10,5 +10,15 @@
 
 .pollHeading {
   font-family: sans-serif;
+  font-weight: bold;
   font-size: 2em;
+  line-height: 1em;
+  padding: .5em;
+  margin: 0;
+}
+
+.pollVoteCount {
+  font-weight: normal;
+  color: #bbb;
+  font-size: .6em;
 }

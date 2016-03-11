@@ -64,6 +64,14 @@ export default createReducer(initialState, {
 export const castVote = (poll, answer) => (dispatch, getState) => {
   const { user } = getState()
 
+  if (!user.user) {
+    return dispatch({
+      type: ANSWER_POLL_SUCCESS,
+      poll,
+      answer
+    })
+  }
+
   dispatch({
     type: ANSWER_POLL,
     poll,
@@ -88,13 +96,14 @@ export const fetchPoll = (pollId) => (dispatch, getState) => {
       type: FETCH_POLL
     })
 
-  return fetch(
-        `https://login.moviepilot.com/v2/users/${user.user.id}/questionnaires/${pollId}`,
-        { credentials: 'include' }
-      )
-      .then(res => res.json())
-      .then(payload => dispatch({
-        type: FETCH_POLL_SUCCESS,
-        payload
-      }))
+  const url = (user && user.user)
+    ? `https://login.moviepilot.com/v2/users/${user.user.id}/questionnaires/${pollId}`
+    : `https://login.moviepilot.com/v2/polls/${pollId}`
+
+  return fetch(url, { credentials: 'include' })
+    .then(res => res.json())
+    .then(payload => dispatch({
+      type: FETCH_POLL_SUCCESS,
+      payload
+    }))
 }
