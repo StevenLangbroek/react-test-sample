@@ -1,24 +1,40 @@
 import React, { PropTypes } from 'react';
-import Answer from '../Answer';
-
-const answerShape = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
-  click_count: PropTypes.number.isRequired,
-  correct: PropTypes.bool,
-});
+import Answer, { answerShape } from '../Answer';
 
 export class Poll extends React.Component {
   static propTypes = {
-    answers: PropTypes.arrayOf(answerShape).isRequired
+    id: PropTypes.number.isRequired,
+    question: PropTypes.string.isRequired,
+    image_url: PropTypes.string,
+    total_click_count: PropTypes.number.isRequired,
+    answers: PropTypes.arrayOf(answerShape).isRequired,
+    answered_question: PropTypes.number,
+    castVote: PropTypes.func.isRequired,
   };
   render() {
     const {
-      answers
+      id,
+      question,
+      image_url,
+      total_click_count,
+      answers,
+      answered_question,
+      castVote,
     } = this.props;
 
     return (
-      {answers.map(answer => <Answer key={answer.id} answer={answer} />)}
+      <div className="poll">
+        {image_url && <div className="poll__image">
+          <img src={image_url} />
+        </div>}
+        {answers.map(answer =>
+          <Answer
+            key={answer.id}
+            answer={answer}
+            castVote={castVote}
+          />
+        )}
+      </div>
     );
   }
 }
