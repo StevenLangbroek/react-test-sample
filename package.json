@@ -19,6 +19,7 @@
     "babel-preset-es2015": "^6.6.0",
     "babel-preset-react": "^6.5.0",
     "chai": "^3.5.0",
+    "class-name": "^0.1.2",
     "concurrently": "^2.0.0",
     "eslint": "^2.3.0",
     "eslint-config-airbnb": "^6.1.0",
