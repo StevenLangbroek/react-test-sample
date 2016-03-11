@@ -10,7 +10,9 @@ export class Poll extends React.Component {
     answers: PropTypes.arrayOf(answerShape).isRequired,
     answered_question: PropTypes.number,
     castVote: PropTypes.func.isRequired,
+    userDidAnswer: PropTypes.bool,
   };
+
   render() {
     const {
       id,
@@ -20,10 +22,12 @@ export class Poll extends React.Component {
       answers,
       answered_question,
       castVote,
+      userDidAnswer
     } = this.props;
 
     return (
       <div className="poll">
+        <h3 className="poll__heading">{question} <span className="poll__vote-count">{total_click_count}</span></h3>
         {image_url && <div className="poll__image">
           <img src={image_url} />
         </div>}
@@ -32,6 +36,8 @@ export class Poll extends React.Component {
             key={answer.id}
             answer={answer}
             castVote={castVote}
+            shouldDisplayResults={userDidAnswer}
+            answeredQuestion={answered_question}
           />
         )}
       </div>
